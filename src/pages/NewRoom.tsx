@@ -1,16 +1,9 @@
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import mainImage from '../assets/images/illustration.svg';
-import googleIcon from '../assets/images/google-icon.svg';
 import Button from '../components/Button';
 import '../styles/auth.scss';
 
-
-export const Home = () => {
-    const history = useHistory();
-
-    function redirectToNewRoom() {
-        history.push('rooms/new');
-    }
+export const NewRoom = () => {
 
    return (
         <div id="page-auth">
@@ -22,24 +15,24 @@ export const Home = () => {
             <main>
                 <div className="main-content">
                     <h1>Quest.io</h1>
-                    <button className="btn-google" onClick={redirectToNewRoom}>
-                        <img src={googleIcon} alt="Logo do Google" />
-                        Crie sua sala com o Google
-                    </button>
-                    <div className="separator">ou entre em uma sala</div>
+                    <h2>Crie uma nova sala</h2>
                     <form>
                         <input
                             type="text"
-                            placeholder="Digite o código da sala"
+                            placeholder="Nome da sala"
                         />
                         <Button type="submit">
-                            Entrar na sala
+                            Criar sala
                         </Button>
                     </form>
+                    <p>
+                        Quer entrar em uma sala já existente?
+                        <Link to="/">Clique aqui</Link>
+                    </p>
                 </div>
             </main>
         </div>
     );
 };
 
-export default Home;
+export default NewRoom;
