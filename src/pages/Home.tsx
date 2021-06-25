@@ -3,13 +3,20 @@ import mainImage from '../assets/images/illustration.svg';
 import googleIcon from '../assets/images/google-icon.svg';
 import Button from '../components/Button';
 import '../styles/auth.scss';
+import { useAuth } from '../hooks/useAuth';
+
 
 
 export const Home = () => {
     const history = useHistory();
+    const { user, signInWithGoogle } = useAuth();
 
-    function redirectToNewRoom() {
-        history.push('rooms/new');
+    async function handleCreateRoom() {
+        if (!user) {
+            await signInWithGoogle()
+        }
+
+       history.push('rooms/new');
     }
 
    return (
@@ -22,7 +29,7 @@ export const Home = () => {
             <main>
                 <div className="main-content">
                     <h1>Quest.io</h1>
-                    <button className="btn-google" onClick={redirectToNewRoom}>
+                    <button className="btn-google" onClick={handleCreateRoom}>
                         <img src={googleIcon} alt="Logo do Google" />
                         Crie sua sala com o Google
                     </button>
