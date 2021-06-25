@@ -11,6 +11,8 @@ export const Home = () => {
     const history = useHistory();
     const { user, signInWithGoogle } = useAuth();
 
+    // faz login com firebase e redireciona para
+    // a página de nova sala
     async function handleCreateRoom() {
         if (!user) {
             await signInWithGoogle()

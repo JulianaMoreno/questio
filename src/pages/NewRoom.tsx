@@ -1,12 +1,42 @@
+import { FormEvent, useState } from 'react';
+//import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import mainImage from '../assets/images/illustration.svg';
 import Button from '../components/Button';
+import { database } from '../services/firebase';
+import { useAuth } from '../hooks/useAuth';
 import '../styles/auth.scss';
-//import { useAuth } from '../hooks/useAuth';
 
 
 export const NewRoom = () => {
-    //const { user } = useAuth();
+    const { user } = useAuth();
+    const [roomName, setRoomName] = useState('');
+
+    /*
+    const history = useHistory();
+    useEffect( () => {
+        console.log('user', user);
+        if (!user?.id) {
+            history.push('/');
+        }
+    }, [user, history]);
+    */
+
+    async function handleCreateRoom(event: FormEvent) {
+        event.preventDefault();
+
+        // vamos garantir que o usuario não deu apenas espaço
+        if (roomName.trim() === '') {
+            return;
+        }
+
+        //salvando dados no firebase
+        const roomRef = database.ref('rooms');
+        const firebaseRoom = await roomRef.push({
+            name: roomName,
+            authorId: user?.id,
+        });
+    }
 
    return (
         <div id="page-auth">
@@ -19,10 +49,12 @@ export const NewRoom = () => {
                 <div className="main-content">
                     <h1>Quest.io</h1>
                     <h2>Crie uma nova sala</h2>
-                    <form>
+                    <form onSubmit={handleCreateRoom}>
                         <input
                             type="text"
                             placeholder="Nome da sala"
+                            onChange={event => setRoomName(event.target.value)}
+                            value={roomName}
                         />
                         <Button type="submit">
                             Criar sala
