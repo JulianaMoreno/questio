@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-//import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import mainImage from '../assets/images/illustration.svg';
 import Button from '../components/Button';
@@ -10,10 +10,10 @@ import '../styles/auth.scss';
 
 export const NewRoom = () => {
     const { user } = useAuth();
+    const history = useHistory();
     const [roomName, setRoomName] = useState('');
 
     /*
-    const history = useHistory();
     useEffect( () => {
         console.log('user', user);
         if (!user?.id) {
@@ -36,6 +36,8 @@ export const NewRoom = () => {
             name: roomName,
             authorId: user?.id,
         });
+
+        history.push(`/rooms/${firebaseRoom.key}`);
     }
 
    return (
