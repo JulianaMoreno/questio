@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
 import '../styles/question.scss';
 
-export const Question = ({content, author}: QuestionProps) => {
+export const Question = ({content, author, children}: QuestionProps) => {
     return (
         <div className="question">
             <p>{content}</p>
@@ -8,6 +9,9 @@ export const Question = ({content, author}: QuestionProps) => {
                 <div className="user-info">
                     <img src={author.avatar} alt={author.name} />
                     <span>{author.name}</span>
+                </div>
+                <div>
+                    { children }
                 </div>
             </footer>
         </div>
@@ -21,6 +25,7 @@ type QuestionProps = {
         name: string,
         avatar: string,
     };
+    children?: ReactNode;
 }
 
 export default Question;

@@ -6,6 +6,7 @@ import Question from './Question';
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
+import { LikeIcon } from '../icons/LikeIcon';
 import '../styles/room.scss';
 
 export const Room = () => {
@@ -40,6 +41,17 @@ export const Room = () => {
 
         //limpar o texto após salvar
         setNewQuestion('');
+    }
+
+    async function handleLikeQuestion(questionId: string, likeId: string|undefined) {
+
+        if(likeId) {
+            await database.ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`).remove();
+        } else {
+            await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
+                authorId: user?.id,
+            });
+        };
     }
 
      return (
@@ -83,7 +95,18 @@ export const Room = () => {
                             <Question
                             key={question.id}
                             content={question.content}
-                            author={question.author}/>
+                            author={question.author}
+                            >
+                                <button
+                                    className={`like-button ${question.likeId ? 'liked' : ''}`}
+                                    type="button"
+                                    aria-label="Marcar como gostei"
+                                    onClick={() => handleLikeQuestion(question.id, question.likeId)}
+                                >
+                                    { question.likeCount > 0 && <span>{question.likeCount}</span> }
+                                    <LikeIcon />
+                                </button>
+                            </Question>
                         )
                     })}
                </div>
