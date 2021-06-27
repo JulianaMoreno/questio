@@ -1,9 +1,10 @@
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
 import Question from './Question';
 import { useAuth } from '../hooks/useAuth';
+import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 import '../styles/room.scss';
 
@@ -11,32 +12,8 @@ export const Room = () => {
     const { user } = useAuth();
     const params = useParams<RoomParams>();
     const [newQuestion, setNewQuestion] = useState('');
-    const [questions, setQuestions] = useState<QuestionType[]>([]);
-    const [roomName, setRoomName] = useState('');
-
     const roomId = params.id;
-
-    useEffect(() => {
-        const roomRef = database.ref(`rooms/${roomId}`);
-
-        roomRef.on('value', room => {
-            const databaseRoom = room.val();
-            const firebaseQuestion: FirebaseQuestions = databaseRoom.questions ?? {};
-            const parsedQuestions = Object.entries(firebaseQuestion).map(
-                ([key, value]) => {
-                    return {
-                        id: key,
-                        content: value.content,
-                        author: value.author,
-                        isHighLighted: value.isHighLighted,
-                        isAnswered: value.isAnswered,
-                    }
-                });
-
-            setRoomName(databaseRoom.name);
-            setQuestions(parsedQuestions);
-        })
-    }, [roomId]);
+    const { roomName, questions } = useRoom(roomId);
 
     async function handleSendQuestion(event: FormEvent) {
         event.preventDefault();
@@ -119,25 +96,8 @@ type RoomParams = {
     id: string;
 }
 
-type FirebaseQuestions = Record<string, {
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isHighLighted: boolean;
-    isAnswered: boolean;
-}>;
 
-type QuestionType = {
-    id: string;
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isHighLighted: boolean;
-    isAnswered: boolean;
-}
+
+
 
  export default Room;
