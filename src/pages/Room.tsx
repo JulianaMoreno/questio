@@ -89,15 +89,11 @@ export const Room = () => {
                </div>
              </main>
          </div>
-     )
-}
+     );
+};
 
 type RoomParams = {
     id: string;
-}
-
-
-
-
+};
 
  export default Room;

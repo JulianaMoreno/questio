@@ -15,6 +15,15 @@
                 font: 700 32px 'Fira Sans Condensed', sans-serif;
                 line-height: 30px;
             }
+
+            > div {
+                display: flex;
+
+                button {
+                    height: 32px;
+                    margin-left: 16px;
+                }
+            }
         }
     }
 
