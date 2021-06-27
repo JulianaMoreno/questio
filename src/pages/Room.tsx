@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
@@ -10,8 +10,32 @@ export const Room = () => {
     const { user } = useAuth();
     const params = useParams<RoomParams>();
     const [newQuestion, setNewQuestion] = useState('');
+    const [question, setQuestion] = useState<Question[]>([]);
+    const [roomName, setRoomName] = useState('');
 
     const roomId = params.id;
+
+    useEffect(() => {
+        const roomRef = database.ref(`rooms/${roomId}`);
+
+        roomRef.once('value', room => {
+            const databaseRoom = room.val();
+            const firebaseQuestion: FirebaseQuestions = databaseRoom.questions ?? {};
+            const parsedQuestions = Object.entries(firebaseQuestion).map(
+                ([key, value]) => {
+                    return {
+                        id: key,
+                        content: value.content,
+                        author: value.author,
+                        isHighLighted: value.isHighLighted,
+                        isAnswered: value.isAnswered,
+                    }
+                });
+
+            setRoomName(databaseRoom.name);
+            setQuestion(parsedQuestions);
+        })
+    }, [roomId]);
 
     async function handleSendQuestion(event: FormEvent) {
         event.preventDefault();
@@ -51,8 +75,8 @@ export const Room = () => {
 
              <main>
                 <div className="room-title">
-                    <h1>Sala React</h1>
-                    <span>4 perguntas</span>
+                    <h1>{roomName}</h1>
+                    {question.length > 0 && <span>{question.length} pergunta(s)</span>}
                 </div>
 
                 <form onSubmit={handleSendQuestion} >
@@ -60,7 +84,6 @@ export const Room = () => {
                         placeholder="Faça sua pergunta aqui"
                         onChange={event => setNewQuestion(event.target.value)}
                         value={newQuestion}
-                        disabled={!user}
                     />
                     <div className="form-footer">
                         { user ? (
@@ -83,6 +106,27 @@ export const Room = () => {
 
 type RoomParams = {
     id: string;
+}
+
+type FirebaseQuestions = Record<string, {
+    author: {
+        name: string;
+        avatar: string;
+    }
+    content: string;
+    isHighLighted: boolean;
+    isAnswered: boolean;
+}>;
+
+type Question = {
+    id: string;
+    author: {
+        name: string;
+        avatar: string;
+    }
+    content: string;
+    isHighLighted: boolean;
+    isAnswered: boolean;
 }
 
  export default Room;
