@@ -2,6 +2,7 @@ import { useState, FormEvent, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import RoomCode from '../components/RoomCode';
+import Question from './Question';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 import '../styles/room.scss';
@@ -10,7 +11,7 @@ export const Room = () => {
     const { user } = useAuth();
     const params = useParams<RoomParams>();
     const [newQuestion, setNewQuestion] = useState('');
-    const [question, setQuestion] = useState<Question[]>([]);
+    const [questions, setQuestions] = useState<QuestionType[]>([]);
     const [roomName, setRoomName] = useState('');
 
     const roomId = params.id;
@@ -18,7 +19,7 @@ export const Room = () => {
     useEffect(() => {
         const roomRef = database.ref(`rooms/${roomId}`);
 
-        roomRef.once('value', room => {
+        roomRef.on('value', room => {
             const databaseRoom = room.val();
             const firebaseQuestion: FirebaseQuestions = databaseRoom.questions ?? {};
             const parsedQuestions = Object.entries(firebaseQuestion).map(
@@ -33,7 +34,7 @@ export const Room = () => {
                 });
 
             setRoomName(databaseRoom.name);
-            setQuestion(parsedQuestions);
+            setQuestions(parsedQuestions);
         })
     }, [roomId]);
 
@@ -76,7 +77,7 @@ export const Room = () => {
              <main>
                 <div className="room-title">
                     <h1>{roomName}</h1>
-                    {question.length > 0 && <span>{question.length} pergunta(s)</span>}
+                    {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
                 </div>
 
                 <form onSubmit={handleSendQuestion} >
@@ -99,6 +100,16 @@ export const Room = () => {
                         <Button type="submit" disabled={!user}>Enviar Pergunta</Button>
                     </div>
                 </form>
+               <div className="question-list">
+                {questions.map(question => {
+                        return (
+                            <Question
+                            key={question.id}
+                            content={question.content}
+                            author={question.author}/>
+                        )
+                    })}
+               </div>
              </main>
          </div>
      )
@@ -118,7 +129,7 @@ type FirebaseQuestions = Record<string, {
     isAnswered: boolean;
 }>;
 
-type Question = {
+type QuestionType = {
     id: string;
     author: {
         name: string;
