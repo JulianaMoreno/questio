@@ -3,9 +3,28 @@
     border-radius: 8px;
     box-shadow: 0 2px 12 px rgba(0,0,0,0.04);
     padding: 24px;
+    border: 0.5px solid rgba(131,90,253,0.2);
 
     & + .question {
         margin-top: 8px;
+    }
+
+    &.highlighted { //destacar pergunta
+        background: #F4F0FF;
+        border: 0.5px solid #835AFD;
+
+        svg {
+            cursor: not-allowed;
+            path {
+                stroke: #835afd;
+            }
+        }
+    }
+
+    &.answered { //pergunta respondida
+        background: #DBDCDD;
+        border: none;
+
     }
 
     p {
@@ -32,6 +51,15 @@
                 margin-left: 8px;
                 color: #737380;
                 font-size: 14px;
+            }
+        }
+
+        .child-info {
+            display: flex;
+            align-items: center;
+
+            button {
+                margin: 0px 16px 0px 0px;
             }
         }
 
