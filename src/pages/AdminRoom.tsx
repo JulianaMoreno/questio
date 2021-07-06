@@ -80,8 +80,8 @@ export const AdminRoom = () => {
                                         type="button"
                                         aria-label="Destacar pergunta"
                                         onClick={() => handleHighlightQuestion(question.id)}
+                                        disabled={question.isHighLighted}
                                         >
-                                            {/* <img src={answerIcon} alt="Destacar pergunta" /> */}
                                             <AnswerIcon />
                                         </button>
                                        </>

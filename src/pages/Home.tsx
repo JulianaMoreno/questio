@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom'
-import mainImage from '../assets/images/illustration.svg';
+import mainImage from '../assets/images/thumbnail.svg';
 import googleIcon from '../assets/images/google-icon.svg';
 import Button from '../components/Button';
 import '../styles/auth.scss';

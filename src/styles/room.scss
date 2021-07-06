@@ -1,3 +1,5 @@
+@import "./global.scss";
+
 #page-room {
     header {
         padding: 12px;
@@ -44,7 +46,7 @@
 
             span {
                 margin-left: 16px;
-                background: #e559f9;
+                background: $tertiary;
                 border-radius: 9999px;
                 padding: 8px 16px;
                 color: #FFF;
@@ -62,7 +64,7 @@
                 box-shadow: 0 1px 12px rgba(0,0,0,0.04);
                 resize: vertical;
                 min-height: 130px;
-                outline-color: #835afd;
+                outline-color: $secondary;
             }
 
             .form-footer {

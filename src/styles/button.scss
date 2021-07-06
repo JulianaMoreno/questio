@@ -1,11 +1,13 @@
+@import "./global.scss";
+
 .button {
     height: 42px;
     border-radius: 8px;
     font-weight: 400;
-    background: #835afd;
-    color: #FFF;
+    background: $primary;
+    color: $text-white;
     padding: 0 32px;
-    outline-color: #835afd;
+    outline: none;
 
     display: flex;
     justify-content: center;
@@ -17,7 +19,7 @@
     transition: filter 0.2s;
 
     &:not(:disabled):hover {
-        filter: brightness(0.9);
+        filter: brightness(1.3);
     }
 
     &:disabled {
@@ -27,7 +29,8 @@
 
     &.outlined {
         background: #FFF;
-        border: 1px solid #835afd;
-        color: #835afd;
+        border: 1px solid $secondary;
+        color: $secondary;
     }
+
 }

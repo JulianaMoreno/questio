@@ -1,3 +1,5 @@
+@import "./global.scss";
+
 #page-auth {
     display: flex;
     align-items: stretch;
@@ -5,7 +7,7 @@
 
     aside {
         flex: 7;
-        background: #895afd;
+        background: $primary;
         color: #FFF;
 
         display: flex;
@@ -68,8 +70,8 @@
                 border-radius: 8px;
                 padding: 0 16px;
                 background: #FFF;
-                border: 1px solid #a8a8b3;
-                outline-color: #a8a8b3;
+                border: 1px solid $secondary;
+                outline-color: $secondary;
             }
 
             button {
@@ -82,13 +84,13 @@
         }
 
         p {
-            font-size: 12px;
-            color: #737388;
+            font-size: 13px;
+            color: $secondary;
             margin-top: 16px;
 
 
             a {
-                color: #835afd;
+                color: $secondary;
                 padding-left: 5px;
             }
         }
@@ -101,6 +103,7 @@
         font-weight: 400;
         background: #ea4335;
         color: #FFF;
+        outline: none;
 
         display: flex;
         justify-content: center;
@@ -123,7 +126,7 @@
 
     .separator {
         font-size: 14px;
-        color: #a8a8b3;
+        color: $secondary;
 
         margin: 32px 0;
         display: flex;
@@ -133,7 +136,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: #a8a8b3;
+            background: $secondary;
             margin-right: 16px;
         }
 
@@ -141,7 +144,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: #a8a8b3;
+            background: $secondary;
             margin-left: 16px;
         }
 
